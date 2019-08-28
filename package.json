@@ -1,0 +1,23 @@
+{
+  "name": "mqttows",
+  "version": "1.0.0",
+  "description": "MQTT over Websocket",
+  "main": "N/A",
+  "scripts": {
+    "test": "N/A"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junreycloudstrife/MQTToWS.git"
+  },
+  "keywords": [
+    "mqtt",
+    "mows"
+  ],
+  "author": "Jun Rey Ansing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/junreycloudstrife/MQTToWS/issues"
+  },
+  "homepage": "https://github.com/junreycloudstrife/MQTToWS#readme"
+}
