@@ -14,9 +14,17 @@ btnConnect.addEventListener('click',function(e){
 	console.log("Connecting to " + brokerAdd)
 	brokerStatusMessage("Connecting..")
 	client = mows.createClient(brokerAdd);
+
+	// This function will be called back when CONNACK is received
 	client.on('connect',function(){
 		console.log("Successfully connected to " + brokerAdd)
 		brokerStatusMessage("Connected!")
+	})
+
+	// This function will receive the incoming topic and payload
+	client.on('message',function(topic,payload){
+		console.log(topic+" "+payload);
+		incomingMessage(topic,payload)
 	})
 })
 
@@ -46,11 +54,6 @@ btnSubscribe.addEventListener('click',function(e){
 	console.log("Subscribed to topic: " + subTopic);
 	client.subscribe(subTopic);
 	subscribedMessage(subTopic)
-	// This function will receive the incoming topic and payload
-	client.on('message',function(topic,payload){
-		console.log(topic+" "+payload);
-		incomingMessage(topic,payload)
-	})
 })
 
 btnUnsubscribe.addEventListener('click',function(e){
