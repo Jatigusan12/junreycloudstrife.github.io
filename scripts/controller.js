@@ -43,7 +43,7 @@ btnPublish.addEventListener('click',function(e){
 	e.preventDefault();
 	var pubTopic = document.getElementById('pubTopic-in').value;
 	var pubPayload = document.getElementById('pubPayload-in').value;
-	client.publish(pubTopic,pubPayload)
+	client.publish(pubTopic,pubPayload, 2)
 	console.log("Published a topic: " + pubTopic + " with payload: " + pubPayload)
 	publishedMessage(pubTopic,pubPayload)
 })
@@ -52,7 +52,7 @@ btnSubscribe.addEventListener('click',function(e){
 	e.preventDefault();
 	var subTopic = document.getElementById('subTopic-in').value;
 	console.log("Subscribed to topic: " + subTopic);
-	client.subscribe(subTopic);
+	client.subscribe(subTopic, {qos: 2});
 	subscribedMessage(subTopic)
 })
 
