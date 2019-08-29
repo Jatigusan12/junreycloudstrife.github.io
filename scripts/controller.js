@@ -6,8 +6,9 @@ var btnSubscribe = document.getElementById('btn-subscribe')
 var btnUnsubscribe = document.getElementById('btn-unsubscribe')
 document.getElementById("btn-disconnect").disabled = true;
 
-btnConnect.addEventListener('click',function(e){
-	// e.preventDefault();
+// This is Connect button event listener if clicked
+// This connects the app to the broker
+btnConnect.addEventListener('click',function(){
 	document.getElementById("btn-connect").disabled = true; // to disable the Connect Button
 	document.getElementById("btn-disconnect").disabled = false; // to enable the Disconnect Button
 	var brokerAdd = document.getElementById('broker-input').value;
@@ -16,6 +17,7 @@ btnConnect.addEventListener('click',function(e){
 
 	// Creating the mqtt client then connect to the broker
 	client = mqtt.connect(brokerAdd);
+
 	// This function will be called back when CONNACK is received
 	client.on('connect',function(){
 		console.log("Successfully connected to " + brokerAdd)
@@ -29,36 +31,39 @@ btnConnect.addEventListener('click',function(e){
 	})
 })
 
-btnDisconnect.addEventListener('click',function(e){
-	// e.preventDefault();
+// This is Disconnect button event listener if clicked
+// This disconnects to the broker
+btnDisconnect.addEventListener('click',function(){
 	document.getElementById("btn-connect").disabled = false; // to enable the Connect Button
 	document.getElementById("btn-disconnect").disabled = true; // to disable the Disconnect Button
 	var brokerAdd = document.getElementById('broker-input').value;
 	console.log("Disconnected to " + brokerAdd);
-	// brokerStatusMessage("Disconnected to " + brokerAdd)
 	brokerStatusMessage("Disconnected!")
 	client.end();
 })
 
-btnPublish.addEventListener('click',function(e){
-	// e.preventDefault();
+// This is Publish button event listener if clicked
+// This publishes on a topic with payload
+btnPublish.addEventListener('click',function(){
 	var pubTopic = document.getElementById('pubTopic-in').value;
 	var pubPayload = document.getElementById('pubPayload-in').value;
-	client.publish(pubTopic,pubPayload, 2)
+	client.publish(pubTopic,pubPayload, 2) // publishes with qos = 2
 	console.log("Published a topic: " + pubTopic + " with payload: " + pubPayload)
 	publishedMessage(pubTopic,pubPayload)
 })
 
-btnSubscribe.addEventListener('click',function(e){
-	// e.preventDefault();
+// This is Subscribe button event listener if clicked
+// This subscribes to a topic
+btnSubscribe.addEventListener('click',function(){
 	var subTopic = document.getElementById('subTopic-in').value;
 	console.log("Subscribed to topic: " + subTopic);
-	client.subscribe(subTopic, {qos: 2});
+	client.subscribe(subTopic, {qos: 2}); // subscribes with qos = 2
 	subscribedMessage(subTopic)
 })
 
-btnUnsubscribe.addEventListener('click',function(e){
-	// e.preventDefault();
+// This is Unsubscribe button event listener if clicked
+// This unsubscribes to a topic
+btnUnsubscribe.addEventListener('click',function(){
 	var subTopic = document.getElementById('subTopic-in').value;
 	console.log(subTopic);
 	client.unsubscribe(subTopic);
