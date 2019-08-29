@@ -7,14 +7,15 @@ var btnUnsubscribe = document.getElementById('btn-unsubscribe')
 document.getElementById("btn-disconnect").disabled = true;
 
 btnConnect.addEventListener('click',function(e){
-	e.preventDefault();
+	// e.preventDefault();
 	document.getElementById("btn-connect").disabled = true; // to disable the Connect Button
 	document.getElementById("btn-disconnect").disabled = false; // to enable the Disconnect Button
 	var brokerAdd = document.getElementById('broker-input').value;
 	console.log("Connecting to " + brokerAdd)
 	brokerStatusMessage("Connecting..")
-	client = mows.createClient(brokerAdd);
 
+	// Creating the mqtt client then connect to the broker
+	client = mqtt.connect(brokerAdd);
 	// This function will be called back when CONNACK is received
 	client.on('connect',function(){
 		console.log("Successfully connected to " + brokerAdd)
@@ -29,7 +30,7 @@ btnConnect.addEventListener('click',function(e){
 })
 
 btnDisconnect.addEventListener('click',function(e){
-	e.preventDefault();
+	// e.preventDefault();
 	document.getElementById("btn-connect").disabled = false; // to enable the Connect Button
 	document.getElementById("btn-disconnect").disabled = true; // to disable the Disconnect Button
 	var brokerAdd = document.getElementById('broker-input').value;
@@ -40,7 +41,7 @@ btnDisconnect.addEventListener('click',function(e){
 })
 
 btnPublish.addEventListener('click',function(e){
-	e.preventDefault();
+	// e.preventDefault();
 	var pubTopic = document.getElementById('pubTopic-in').value;
 	var pubPayload = document.getElementById('pubPayload-in').value;
 	client.publish(pubTopic,pubPayload, 2)
@@ -49,7 +50,7 @@ btnPublish.addEventListener('click',function(e){
 })
 
 btnSubscribe.addEventListener('click',function(e){
-	e.preventDefault();
+	// e.preventDefault();
 	var subTopic = document.getElementById('subTopic-in').value;
 	console.log("Subscribed to topic: " + subTopic);
 	client.subscribe(subTopic, {qos: 2});
@@ -57,17 +58,18 @@ btnSubscribe.addEventListener('click',function(e){
 })
 
 btnUnsubscribe.addEventListener('click',function(e){
-	e.preventDefault();
+	// e.preventDefault();
 	var subTopic = document.getElementById('subTopic-in').value;
 	console.log(subTopic);
 	client.unsubscribe(subTopic);
 })
 
+// This displays the status of connection to broker
 function brokerStatusMessage(message){
 	document.getElementById("broker-status-message").innerHTML = message;
 }
 
-// This will display the incoming messages
+// This displays the incoming/received messages
 function incomingMessage(message1,message2) {
 	var table = document.getElementById("incomingMessageTable").getElementsByTagName("tbody")[0];
 	var row = table.insertRow(0);
@@ -77,7 +79,7 @@ function incomingMessage(message1,message2) {
 	row.insertCell(2).innerHTML = messageTime.substring(0,24);
 }
 
-// This will display the published messages
+// This displays the published topic and payload
 function publishedMessage(message1,message2) {
 	var table = document.getElementById("publishedMessageTable").getElementsByTagName("tbody")[0];
 	var row = table.insertRow(0);
@@ -87,7 +89,7 @@ function publishedMessage(message1,message2) {
 	row.insertCell(2).innerHTML = messageTime.substring(0,24);
 }
 
-// This will display the subscribed messages
+// This displays the subscribed topics
 function subscribedMessage(message1) {
 	var table = document.getElementById("subscribedMessageTable").getElementsByTagName("tbody")[0];
 	var row = table.insertRow(0);
