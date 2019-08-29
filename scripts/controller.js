@@ -1,16 +1,24 @@
 // Variables for the buttons
-var btnConnect = document.getElementById('btn-connect')
-var btnDisconnect = document.getElementById('btn-disconnect')
-var btnPublish = document.getElementById('btn-publish')
-var btnSubscribe = document.getElementById('btn-subscribe')
-var btnUnsubscribe = document.getElementById('btn-unsubscribe')
-document.getElementById("btn-disconnect").disabled = true;
+var btnConnect = document.getElementById('btn-connect');
+var btnDisconnect = document.getElementById('btn-disconnect');
+var btnPublish = document.getElementById('btn-publish');
+var btnSubscribe = document.getElementById('btn-subscribe');
+var btnUnsubscribe = document.getElementById('btn-unsubscribe');
+
+// Disables the following buttons at start
+document.getElementById("btn-disconnect").disabled = true; // to disable Disconnect button
+document.getElementById('btn-publish').disabled = true; // to disable Publish button
+document.getElementById('btn-subscribe').disabled = true; // to disable Subscribe button
+document.getElementById('btn-unsubscribe').disabled = true; // to disable Unsubscribe button
+
+// Initial broker status message
+brokerStatusMessage("Press Connect")
 
 // This is Connect button event listener if clicked
 // This connects the app to the broker
 btnConnect.addEventListener('click',function(){
-	document.getElementById("btn-connect").disabled = true; // to disable the Connect Button
-	document.getElementById("btn-disconnect").disabled = false; // to enable the Disconnect Button
+	document.getElementById("btn-connect").disabled = true; // to disable Connect Button
+
 	var brokerAdd = document.getElementById('broker-input').value;
 	console.log("Connecting to " + brokerAdd)
 	brokerStatusMessage("Connecting..")
@@ -21,7 +29,11 @@ btnConnect.addEventListener('click',function(){
 	// This function will be called back when CONNACK is received
 	client.on('connect',function(){
 		console.log("Successfully connected to " + brokerAdd)
-		brokerStatusMessage("Connected!")
+		brokerStatusMessage("Connected!");
+		document.getElementById("btn-disconnect").disabled = false; // to enable the Disconnect Button
+		document.getElementById('btn-publish').disabled = false; // to disable Publish button
+		document.getElementById('btn-subscribe').disabled = false; // to disable Subscribe button
+		document.getElementById('btn-unsubscribe').disabled = false; // to disable Unsubscribe button	
 	})
 
 	// This function will receive the incoming topic and payload
@@ -34,12 +46,20 @@ btnConnect.addEventListener('click',function(){
 // This is Disconnect button event listener if clicked
 // This disconnects to the broker
 btnDisconnect.addEventListener('click',function(){
-	document.getElementById("btn-connect").disabled = false; // to enable the Connect Button
-	document.getElementById("btn-disconnect").disabled = true; // to disable the Disconnect Button
+	document.getElementById("btn-disconnect").disabled = true; // to disable Disconnect button
+	document.getElementById('btn-publish').disabled = true; // to disable Publish button
+	document.getElementById('btn-subscribe').disabled = true; // to disable Subscribe button
+	document.getElementById('btn-unsubscribe').disabled = true; // to disable Unsubscribe button
+
 	var brokerAdd = document.getElementById('broker-input').value;
 	console.log("Disconnected to " + brokerAdd);
 	brokerStatusMessage("Disconnected!")
 	client.end();
+	setTimeout(() => {
+		brokerStatusMessage("Press Connect");
+		document.getElementById("btn-connect").disabled = false; // to enable Connect Button
+	},2000)
+
 })
 
 // This is Publish button event listener if clicked
